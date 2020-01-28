@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+/**
+ * gRPC entry point for Magento
+ *
+ * Please make sure you ran './bin/magento proto:marshal' CLI command before running this code
+ */
+ini_set('display_errors', 'stderr');
+try {
+    require __DIR__ . '/../app/bootstrap.php';
+} catch (\Exception $e) {
+    echo 'Autoload error: ' . $e->getMessage();
+    exit(1);
+}
+
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+/** @var \Magento\Grpc\App\Grpc $app */
+$app = $bootstrap->createApplication(\Magento\Grpc\App\Grpc::class);
+
+$bootstrap->run($app);

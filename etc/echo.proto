@@ -1,0 +1,20 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+syntax = "proto3";
+
+package magento.grpc.api;
+
+message EchoRequest {
+    string name = 1;
+}
+
+message EchoReply {
+    string greeting = 1;
+}
+
+service Echo {
+    rpc Greet(EchoRequest) returns (EchoReply) {}
+}
