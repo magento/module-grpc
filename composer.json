@@ -25,7 +25,7 @@
     "extra": {
         "map": [
             ["etc/.rr.yaml", "../../.rr.yaml"],
-            ["bin/worker.php", "../../bin/worker.php"]
+            ["bin/worker", "../../bin/worker"]
         ]
     }
 }
