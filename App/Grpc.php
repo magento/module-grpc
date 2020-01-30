@@ -81,7 +81,7 @@ class Grpc implements \Magento\Framework\AppInterface
         $this->objectManager->configure($this->configLoader->load(\Magento\Framework\App\Area::AREA_GLOBAL));
 
         $servicesFile = BP . DIRECTORY_SEPARATOR . 'generated' . DIRECTORY_SEPARATOR .
-            'code' . DIRECTORY_SEPARATOR . 'grpc_services_map.php2';
+            'code' . DIRECTORY_SEPARATOR . 'grpc_services_map.php';
         if (!file_exists($servicesFile)) {
             throw new \RuntimeException(
                 $servicesFile . ' is missing in the system.' . PHP_EOL
