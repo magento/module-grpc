@@ -127,7 +127,7 @@ class ProtoMarshalCommand extends Command
 
         $mainProtoTemplate = "syntax = \"proto3\";\n";
         foreach ($protoFiles as $file) {
-            $fileString = str_replace($directoryWrite->getAbsolutePath(), '', $file);
+            $fileString = preg_replace("~^{$directoryWrite->getAbsolutePath()}~", '', $file);
             $mainProtoTemplate .= 'import public "' . $fileString . '";' . PHP_EOL;
         }
 

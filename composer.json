@@ -22,16 +22,5 @@
             "Magento\\Grpc\\": ""
         }
     },
-    "extra": {
-        "map": [
-            ["etc/.rr.yaml", "../../.rr.yaml"],
-            ["bin/worker", "../../bin/worker"]
-        ],
-        "chmod": [
-            {
-                "mask": "0755",
-                "path": "bin/worker"
-            }
-        ]
-    }
+    "bin": ["bin/grpc-server", "bin/grpc-workers"]
 }

@@ -14,8 +14,7 @@ This module provides gRPC entry point for Magento. Additionally, it provides pos
   * Creates unified protobuf messages and services (`magento.proto`)
   * Creates protoset file that could be used as a replacement for reflection API (`magento.protoset`)
   * Register services for later use in gRPC sever
-* Adjust `.rr.yaml` file if needed
-* Launch `rr-grpc serve -v` in Magento root
+* Launch `./vendor/bin/grpc-server` in Magento root. You can also use this file as a reference for your gRPC configuration.
 * In case of any code changes repeat all steps from `Usage` section
 
 # gRPC services development

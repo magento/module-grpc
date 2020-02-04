@@ -49,6 +49,10 @@ class Grpc implements \Magento\Framework\AppInterface
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
+    /**
+     * @var App\ResponseInterface
+     */
+    private $appResponse;
 
     /**
      * Grpc constructor.
@@ -57,19 +61,22 @@ class Grpc implements \Magento\Framework\AppInterface
      * @param State $state
      * @param \Spiral\GRPC\Server $grpcServer
      * @param \Psr\Log\LoggerInterface $logger
+     * @param App\ResponseInterface $appResponse
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
         ConfigLoaderInterface $configLoader,
         State $state,
         \Spiral\GRPC\Server $grpcServer,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\App\ResponseInterface $appResponse
     ) {
         $this->objectManager = $objectManager;
         $this->state = $state;
         $this->configLoader = $configLoader;
         $this->grpcServer = $grpcServer;
         $this->logger = $logger;
+        $this->appResponse = $appResponse;
     }
 
     /**
@@ -100,6 +107,7 @@ class Grpc implements \Magento\Framework\AppInterface
         ]);
         $worker = $this->objectManager->create(RoadRunner\Worker::class, ['relay' => $relay]);
         $this->grpcServer->serve($worker);
+        return $this->appResponse;
     }
 
     /**
