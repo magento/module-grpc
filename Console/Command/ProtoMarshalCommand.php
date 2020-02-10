@@ -117,11 +117,15 @@ class ProtoMarshalCommand extends Command
         $phpGrpcBinary = $this->getBinaryPath('protoc-gen-php-grpc');
         $output->writeln("<info>protoc-gen-php-grpc binary found in $phpGrpcBinary</info>");
 
+        $phpGrpcPlugin = $this->getBinaryPath('grpc_php_plugin');
+        $output->writeln("<info>grpc_php_plugin found in $phpGrpcPlugin</info>");
+
         //Generating PHP
         $protoFiles = $this->generatePhpClasses(
             $directoryWrite->getAbsolutePath(),
             $protocBinary,
             $phpGrpcBinary,
+            $phpGrpcPlugin,
             $output
         );
 
@@ -149,6 +153,7 @@ class ProtoMarshalCommand extends Command
      * @param string $rootDirectory
      * @param string $protocBinary
      * @param string $phpGrpcBinary
+     * @param string $phpGrpcPlugin
      * @param OutputInterface $output
      *
      * @return string[] Array of proto files found in Magento
@@ -157,6 +162,7 @@ class ProtoMarshalCommand extends Command
         string $rootDirectory,
         string $protocBinary,
         string $phpGrpcBinary,
+        string $phpGrpcPlugin,
         OutputInterface $output
     ) {
         //Collecting complete list of module's directories which contain proto files
@@ -181,12 +187,12 @@ class ProtoMarshalCommand extends Command
         }
 
 
-        $command = "$protocBinary $includesStr --php_out={$rootDirectory}"
-            . DirectoryList::GENERATED . "/code/"
-            . " --php-grpc_out={$rootDirectory}"
-            . DirectoryList::GENERATED . "/code/"
+        $command = "$protocBinary $includesStr --php_out={$rootDirectory}" . DirectoryList::GENERATED . "/code/"
+            . " --php-grpc_out={$rootDirectory}" . DirectoryList::GENERATED . "/code/"
+            . " --grpc_out={$rootDirectory}" . DirectoryList::GENERATED . "/code/"
             . " --descriptor_set_out={$rootDirectory}magento.protoset"
             . " --plugin=protoc-gen-php-grpc=$phpGrpcBinary"
+            . " --plugin=protoc-gen-grpc=$phpGrpcPlugin"
             . " --include_imports"
             . " --include_source_info"
             . " $protoStr";
