@@ -8,7 +8,7 @@
         "spiral/roadrunner":"^1.5.2",
         "spiral/php-grpc": "^1.1",
         "google/protobuf": "^3.11",
-        "grpc/grpc": "^1.27",
+        "grpc/grpc": "^1.27"
     },
     "type": "magento2-module",
     "license": [
