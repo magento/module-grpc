@@ -7,14 +7,14 @@ syntax = "proto3";
 
 package magento.grpc.api;
 
-message EchoRequest {
+message GreetingRequest {
     string name = 1;
 }
 
-message EchoReply {
+message GreetingReply {
     string greeting = 1;
 }
 
-service Echo {
-    rpc Greet(EchoRequest) returns (EchoReply) {}
+service Greeting {
+    rpc Greet(GreetingRequest) returns (GreetingReply) {}
 }
