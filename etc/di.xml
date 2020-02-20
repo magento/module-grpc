@@ -15,5 +15,5 @@
         </arguments>
     </type>
 
-    <preference for="Magento\Grpc\Api\EchoInterface" type="Magento\Grpc\Model\EchoService" />
+    <preference for="Magento\Grpc\Api\GreetingInterface" type="Magento\Grpc\Model\Greeting" />
 </config>

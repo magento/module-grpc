@@ -6,8 +6,8 @@ declare(strict_types=1);
  */
 namespace Magento\Grpc\Model;
 
-use Magento\Grpc\Api\EchoReply;
-use Magento\Grpc\Api\EchoRequest;
+use Magento\Grpc\Api\GreetingRequest;
+use Magento\Grpc\Api\GreetingReply;
 use Spiral\GRPC;
 
 /**
@@ -15,17 +15,17 @@ use Spiral\GRPC;
  *
  * @package Magento\Grpc\Model
  */
-class EchoService implements \Magento\Grpc\Api\EchoInterface
+class Greeting implements \Magento\Grpc\Api\GreetingInterface
 {
     /**
      * @param GRPC\ContextInterface $ctx
-     * @param EchoRequest $in
-     * @return EchoReply
+     * @param GreetingRequest $in
+     * @return GreetingReply
      *
      * @throws GRPC\Exception\InvokeException
      */
-    public function Greet(GRPC\ContextInterface $ctx, EchoRequest $in): EchoReply
+    public function Greet(GRPC\ContextInterface $ctx, GreetingRequest $in): GreetingReply
     {
-        return new EchoReply(['greeting' => 'Hello ' . $in->getName()]);
+        return new GreetingReply(['greeting' => 'Hello ' . $in->getName()]);
     }
 }

@@ -67,32 +67,32 @@ import "google/protobuf/field_mask.proto";
 //}
 
 
-message Or {
+message OrClause {
     Clause clause1 = 1;
     Clause clause2 = 2;
 }
 
-message And {
+message AndClause {
     Clause clause1 = 1;
     Clause clause2 = 2;
 }
 
-message Eq {
+message EqClause {
     string attribute = 1;
     google.protobuf.Value value = 2;
 }
 
-message In {
+message InClause {
     string attribute = 1;
     repeated google.protobuf.Value value = 2;
 }
 
 message Clause {
     oneof kind {
-        Or or = 1;
-        And and = 2;
-        Eq eq = 3;
-        In in = 4;
+        OrClause or = 1;
+        AndClause and = 2;
+        EqClause eq = 3;
+        InClause in = 4;
     }
 }
 
