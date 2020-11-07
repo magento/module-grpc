@@ -42,6 +42,9 @@ $absolutePathResolver = function(string $cwd, string $directory): string
 
 $absoluteDirectory = $absolutePathResolver(getcwd(), $directoryName);
 $appRoot = dirname(dirname(dirname(dirname($absoluteDirectory))));
+if (!\file_exists($appRoot . DIRECTORY_SEPARATOR . 'app' .DIRECTORY_SEPARATOR . 'bootstrap.php')) {
+    $appRoot = dirname(dirname($absoluteDirectory));
+}
 
 try {
     require $appRoot . DIRECTORY_SEPARATOR . 'app' .DIRECTORY_SEPARATOR . 'bootstrap.php';
