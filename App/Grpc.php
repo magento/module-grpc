@@ -1,30 +1,27 @@
 <?php
-declare(strict_types=1);
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+declare(strict_types=1);
+
 namespace Magento\Grpc\App;
 
 use Magento\Framework\App;
 use Magento\Framework\App\State;
 use Magento\Framework\ObjectManager\ConfigLoaderInterface;
 use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\Event\Manager;
 use Spiral\Goridge;
 use Spiral\RoadRunner;
 
 /**
  * Grpc application. Called from grpc worker to serve grpc requests.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Grpc implements \Magento\Framework\AppInterface
 {
     const AREA = 'storefront';
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    protected $_objectManager;
 
     /**
      * @var State
@@ -45,17 +42,18 @@ class Grpc implements \Magento\Framework\AppInterface
      * @var ObjectManagerInterface
      */
     private $objectManager;
+
     /**
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
+
     /**
      * @var App\ResponseInterface
      */
     private $appResponse;
 
     /**
-     * Grpc constructor.
      * @param ObjectManagerInterface $objectManager
      * @param ConfigLoaderInterface $configLoader
      * @param State $state
@@ -81,6 +79,10 @@ class Grpc implements \Magento\Framework\AppInterface
 
     /**
      * Run application
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * phpcs:disable Magento2.Functions.DiscouragedFunction
+     * phpcs:disable Magento2.Security.IncludeFile
      */
     public function launch()
     {
@@ -96,6 +98,7 @@ class Grpc implements \Magento\Framework\AppInterface
                 . 'Di compile command may cleanup generated directory. "-s" flag will skip cleanup during di:compile'
             );
         }
+
         $services = require($servicesFile);
         foreach ($services as $serviceInterface) {
             $serviceInstance = $this->objectManager->get($serviceInterface);
@@ -111,9 +114,13 @@ class Grpc implements \Magento\Framework\AppInterface
     }
 
     /**
-     * Writes errors to stdout
-     *
      * @inheritDoc
+     *
+     * Ability to handle exceptions that may have occurred during bootstrap and launch.
+     *
+     * @param App\Bootstrap $bootstrap
+     * @param \Exception $exception
+     * @return bool
      */
     public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
     {
