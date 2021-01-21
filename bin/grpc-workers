@@ -11,7 +11,6 @@ if [ -L "$SCRIPT_ABSOLUTE_PATH" ]; then #Symlink in vendor/bin from vendor/magen
   cd ${SCRIPT_ABSOLUTE_PATH}/../../../
   MAGENTO_ROOT=$(pwd)
   cd ${SCRIPT_ABSOLUTE_DIR}/../magento/module-grpc/etc/
-  CONFIG_PATH="$(pwd)/.rr.yaml"
 else #Direct launch from vendor/magento/module-grpc or copied file from Magento/Grpc
   if [ -d ${SCRIPT_ABSOLUTE_DIR}/../../app/code/Magento/Grpc ]; then
     cd ${SCRIPT_ABSOLUTE_DIR}/../../
@@ -22,7 +21,18 @@ else #Direct launch from vendor/magento/module-grpc or copied file from Magento/
     MAGENTO_ROOT=$(pwd)
     cd ${SCRIPT_ABSOLUTE_DIR}/../etc/
   fi
-  CONFIG_PATH="$(pwd)/.rr.yaml"
+fi
+
+# default.yaml is used for catalog-storefront-ce
+if [ -f "$MAGENTO_ROOT/app/etc/.rr.yaml" ] && [ ! -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+  CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.yaml"
+else
+  if [ -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+    CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.default.yaml"
+  else
+    # this node works for Backward Compatibility and takes .rr.yaml from gRPC module.
+    CONFIG_PATH="$(pwd)/.rr.yaml"
+  fi
 fi
 
 rr-grpc grpc:workers -w $MAGENTO_ROOT -c $CONFIG_PATH
