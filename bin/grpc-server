@@ -23,11 +23,14 @@ else #Direct launch from vendor/magento/module-grpc or copied file from Magento/
   fi
 fi
 
-# default.yaml is used for catalog-storefront-ce
+# .rr.default.yaml is used to setup gRPC server run for catalog-storefront-ce as default service,
+# it is an ad-hoc solution to support run tests on CI with a monolithic installation approach
 if [ -f "$MAGENTO_ROOT/app/etc/.rr.yaml" ] && [ ! -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+  # standalone installation, rr.default.yaml present only in catalog-storefront-ce
   CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.yaml"
 else
   if [ -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+    # monolith installation, .rr.default.yaml will be used
     CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.default.yaml"
   else
     # this node works for Backward Compatibility and takes .rr.yaml from gRPC module.
