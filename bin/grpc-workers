@@ -11,7 +11,6 @@ if [ -L "$SCRIPT_ABSOLUTE_PATH" ]; then #Symlink in vendor/bin from vendor/magen
   cd ${SCRIPT_ABSOLUTE_PATH}/../../../
   MAGENTO_ROOT=$(pwd)
   cd ${SCRIPT_ABSOLUTE_DIR}/../magento/module-grpc/etc/
-  CONFIG_PATH="$(pwd)/.rr.yaml"
 else #Direct launch from vendor/magento/module-grpc or copied file from Magento/Grpc
   if [ -d ${SCRIPT_ABSOLUTE_DIR}/../../app/code/Magento/Grpc ]; then
     cd ${SCRIPT_ABSOLUTE_DIR}/../../
@@ -22,7 +21,21 @@ else #Direct launch from vendor/magento/module-grpc or copied file from Magento/
     MAGENTO_ROOT=$(pwd)
     cd ${SCRIPT_ABSOLUTE_DIR}/../etc/
   fi
-  CONFIG_PATH="$(pwd)/.rr.yaml"
+fi
+
+# .rr.default.yaml is used to setup gRPC server run for catalog-storefront-ce as default service,
+# it is an ad-hoc solution to support run tests on CI with a monolithic installation approach
+if [ -f "$MAGENTO_ROOT/app/etc/.rr.yaml" ] && [ ! -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+  # standalone installation, rr.default.yaml present only in catalog-storefront-ce
+  CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.yaml"
+else
+  if [ -f "$MAGENTO_ROOT/app/etc/.rr.default.yaml" ]; then
+    # monolith installation, .rr.default.yaml will be used
+    CONFIG_PATH="$MAGENTO_ROOT/app/etc/.rr.default.yaml"
+  else
+    # this node works for Backward Compatibility and takes .rr.yaml from gRPC module.
+    CONFIG_PATH="$(pwd)/.rr.yaml"
+  fi
 fi
 
 rr-grpc grpc:workers -w $MAGENTO_ROOT -c $CONFIG_PATH
