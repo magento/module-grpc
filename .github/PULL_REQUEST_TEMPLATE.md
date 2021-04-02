@@ -43,3 +43,4 @@
 - [ ] proposed changes correspond to [Magento Technical Vision](https://devdocs.magento.com/guides/v2.2/coding-standards/technical-guidelines.html)
 - [ ] new or changed code is covered with web-api/integration tests (if applicable)
 - [ ] no backward incompatible changes
+- [ ] README.md file is updated and included in the pull request if any [README.md predefined sections](https://github.com/magento/devdocs/wiki/Magento-module-README.md) require an update
